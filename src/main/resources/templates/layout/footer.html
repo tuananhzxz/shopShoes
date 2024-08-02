@@ -1,0 +1,95 @@
+<footer class="footer footer-dark" th:fragment="footer">
+    <div class="cta bg-image bg-dark pt-4 pb-5 mb-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-10 col-md-8 col-lg-6">
+                    <div class="cta-heading text-center">
+                        <h3 class="cta-title text-white">Đăng ký nhận bản tin của chúng tôi</h3><!-- End .cta-title -->
+                        <p class="cta-desc text-white">và nhận <span class="font-weight-normal">phiếu giảm giá $20</span> cho lần mua sắm đầu tiên</p><!-- End .cta-desc -->
+                    </div><!-- End .text-center -->
+
+                    <form action="#">
+                        <div class="input-group input-group-round">
+                            <input type="email" class="form-control form-control-white" placeholder="Nhập địa chỉ email của bạn" aria-label="Email Adress" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-white" type="submit"><span>Đăng ký</span><i class="icon-long-arrow-right"></i></button>
+                            </div><!-- .End .input-group-append -->
+                        </div><!-- .End .input-group -->
+                    </form>
+                </div><!-- End .col-sm-10 col-md-8 col-lg-6 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .cta -->
+    <div class="footer-middle">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget widget-about">
+                        <img th:src="@{fe/images/demos/logo.png}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                        <p>Trang web bán giày uy tín tạo nên tên tuổi số 1 thế giới</p>
+
+                        <div class="social-icons">
+                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                            <a href="#" class="social-icon" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                            <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                        </div><!-- End .soial-icons -->
+                    </div><!-- End .widget about-widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Liên kết hữu ích</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a th:href="@{/aboutus}">Về Chúng Tôi</a></li>
+                            <li><a href="#">Cách mua sắm </a></li>
+                            <li><a th:href="@{/faq}">Câu hỏi thường gặp</a></li>
+                            <li><a th:href="@{/contact}">Liên hệ với chúng tôi</a></li>
+                            <li><a th:href="@{/login}">Đăng nhập</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Dịch vụ khách hàng</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a th:href="@{faq}">Phương thức thanh toán</a></li>
+                            <li><a th:href="@{faq}">Đảm bảo hoàn tiền!</a></li>
+                            <li><a th:href="@{faq}">Trả lại</a></li>
+                            <li><a th:href="@{faq}">Vận chuyển</a></li>
+                            <li><a th:href="@{faq}">Điều khoản và điều kiện</a></li>
+                            <li><a th:href="@{faq}">Chính sách bảo mật</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+
+                <div class="col-sm-6 col-lg-3">
+                    <div class="widget">
+                        <h4 class="widget-title">Tài khoản của tôi</h4><!-- End .widget-title -->
+
+                        <ul class="widget-list">
+                            <li><a th:href="@{/login}">Đăng nhập</a></li>
+                            <li><a th:href="@{/cart}">Xem giỏ hàng</a></li>
+                            <li><a th:href="@{/wishlist}">Danh sách yêu thích của tôi</a></li>
+                            <li><a th:href="@{/cart}">Theo dõi đơn hàng của tôi</a></li>
+                            <li><a th:href="@{/contact}">Trợ giúp</a></li>
+                        </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                </div><!-- End .col-sm-6 col-lg-3 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-middle -->
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="footer-copyright">Bản quyền © 2024 Tuan Anh Dz</p><!-- End .footer-copyright -->
+            <figure class="footer-payments">
+                <img th:src="@{fe/images/payments.png}" alt="Phương thức thanh toán" width="272" height="20">
+            </figure><!-- End .footer-payments -->
+        </div><!-- End .container -->
+    </div><!-- End .footer-bottom -->
+</footer><!-- End .footer -->

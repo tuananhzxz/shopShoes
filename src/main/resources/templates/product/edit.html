@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: head}">
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:replace="~{fragment/header.html :: header}"></div>
+    <div th:replace="~{fragment/slidebar.html :: slidebar}"></div>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>Chỉnh Sửa Sản Phẩm</h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a th:href="@{/admin/product}">Quản lý sản phẩm</a></li>
+                <li class="active">Chỉnh sửa sản phẩm</li>
+            </ol>
+        </section>
+
+        <section class="content">
+            <div class="box">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Danh sách sản phẩm</h3>
+                    </div>
+                    <form id="productForm" th:action="@{/admin/product/edit/{id}(id=${productDTO.productId})}" th:object="${productDTO}" method="post" enctype="multipart/form-data">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="tensp">Tên sản phẩm</label>
+                                <input type="text" class="form-control" id="tensp" placeholder="Nhập tên sản phẩm" th:field="*{name}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="giatien">Giá tiền</label>
+                                <input type="text" class="form-control" id="giatien" placeholder="Nhập giá tiền" th:field="*{price}" required>
+                                <p class="text-danger" th:if="${#fields.hasErrors('price')}" th:text="${priceError}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="mausac">Màu sắc</label>
+                                <input type="text" class="form-control" id="mausac" placeholder="Màu sắc" th:field="*{color}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Kích thước</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="size" value="36" th:checked="${#lists.contains(productDTO.size, '36')}"> 36</label>
+                                    <label><input type="checkbox" name="size" value="37" th:checked="${#lists.contains(productDTO.size, '37')}"> 37</label>
+                                    <label><input type="checkbox" name="size" value="38" th:checked="${#lists.contains(productDTO.size, '38')}"> 38</label>
+                                    <label><input type="checkbox" name="size" value="39" th:checked="${#lists.contains(productDTO.size, '39')}"> 39</label>
+                                    <label><input type="checkbox" name="size" value="40" th:checked="${#lists.contains(productDTO.size, '40')}"> 40</label>
+                                    <label><input type="checkbox" name="size" value="41" th:checked="${#lists.contains(productDTO.size, '41')}"> 41</label>
+                                    <label><input type="checkbox" name="size" value="42" th:checked="${#lists.contains(productDTO.size, '42')}"> 42</label>
+                                    <label><input type="checkbox" name="size" value="43" th:checked="${#lists.contains(productDTO.size, '43')}"> 43</label>
+                                    <label><input type="checkbox" name="size" value="44" th:checked="${#lists.contains(productDTO.size, '44')}"> 44</label>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('size')}" th:text="${sizeError}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="stock">Kho</label>
+                                <input type="text" class="form-control" id="stock" placeholder="Trong kho" th:field="*{stock}" required>
+                                <p class="text-danger" th:if="${#fields.hasErrors('stock')}" th:text="${stockError}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Mô tả</label>
+                                <textarea class="form-control" id="description" placeholder="Mô tả sản phẩm" th:field="*{description}" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Hình ảnh</label>
+                                <input type="file" class="form-control" id="image" name="imageFile">
+                                <p class="help-block">Hình ảnh không được quá 2MB.</p>
+                                <div th:if="${productDTO.image}">
+                                    <img th:src="@{/upload/{image}(image=${productDTO.image})}" alt="Current Image" style="max-width: 200px; max-height: 200px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Danh mục</label>
+                                <select class="form-control" id="category" th:field="*{categoryId}">
+                                    <option th:each="category : ${listCate}" th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        </div>
+                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                            <p th:text="${errorMessage}"></p>
+                        </div>
+                        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                            <p th:text="${successMessage}"></p>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div th:replace="~{fragment/footer.html :: footer}"></div>
+    <div th:replace="~{fragment/script.html :: script}"></div>
+</div>
+<script>
+    CKEDITOR.replace('description');
+</script>
+</body>
+</html>

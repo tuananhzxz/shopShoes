@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+<div class="page-wrapper">
+    <div th:replace="~{layout/header.html :: header}"></div>
+
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">404</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="error-content text-center" style="background-image: url(/fe/images/backgrounds/error-bg.jpg)">
+            <div class="container">
+                <h1 class="error-title">Error 404</h1><!-- End .error-title -->
+                <p>We are sorry, the page you've requested is not available.</p>
+                <a href="index.html" class="btn btn-outline-primary-2 btn-minwidth-lg">
+                    <span>BACK TO HOMEPAGE</span>
+                    <i class="icon-long-arrow-right"></i>
+                </a>
+            </div><!-- End .container -->
+        </div><!-- End .error-content text-center -->
+    </main><!-- End .main -->
+
+    <div th:replace="~{layout/footer.html :: footer}"></div>
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+<!-- Plugins JS File -->
+<script th:src="@{fe/js/jquery.min.js}"></script>
+<script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{fe/js/superfish.min.js}"></script>
+<script th:src="@{fe/js/owl.carousel.min.js}"></script>
+<!-- Main JS File -->
+<script th:src="@{fe/js/main.js}"></script>
+</body>
+</html>

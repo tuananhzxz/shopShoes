@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ShopShoes</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+<section class="vh-100" style="background-color: #508bfc;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card-body p-5">
+
+                        <h3 class="mb-5 text-center">Sign in</h3>
+
+                        <form th:action="@{/logon}" th:object="${loginDTO}" method="post">
+                            <div class="form-group row mb-4">
+                                <label for="typeUsername" class="col-sm-4 col-form-label">Username</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="typeUsername" class="form-control form-control-lg" th:field="*{username}" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label for="typePassword" class="col-sm-4 col-form-label">Password</label>
+                                <div class="col-sm-8">
+                                    <input type="password" id="typePassword" class="form-control form-control-lg" th:field="*{password}" required/>
+                                </div>
+                            </div>
+
+                            <!-- Checkbox -->
+                            <div class="form-check d-flex justify-content-start mb-4">
+                                <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
+                                <label class="form-check-label" for="form1Example3"> Remember password </label>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <div class="text-center mt-3">
+                            <a th:href="@{/register}">Don't have an account? Register here</a>
+                        </div>
+
+                        <!-- Success message -->
+                        <div th:if="${successLogin}" role="alert">
+                            <script th:inline="javascript">
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: [[${successLogin}]],
+                                    showConfirmButton: true,
+                                    timer: 3000
+                                }).then((result) => {
+                                    if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                                        window.location.href = '/admin';
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                        <!-- error message -->
+                        <div th:if="${errorLogin}" role="alert">
+                            <script th:inline="javascript">
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: [[${errorLogin}]],
+                                    showConfirmButton: true,
+                                    timer: 3000
+                                });
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

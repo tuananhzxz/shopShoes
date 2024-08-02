@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+<div class="page-wrapper">
+    <div th:replace="~{layout/header.html :: header}"></div>
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Đăng ký</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-image: url('static/fe/images/backgrounds/login-bg.jpg')">
+            <div class="container">
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab" aria-controls="signin-2" aria-selected="false">Đăng Ký</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
+                                <form th:action="@{/signup}" th:object="${registerDTO}" method="post">
+                                    <div class="form-group">
+                                        <label for="register-email-2">Email *</label>
+                                        <input type="email" class="form-control" id="register-email-2" name="register-email" th:field="*{email}" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-usernmae-2">Tên tài khoản *</label>
+                                        <input type="text" class="form-control" id="register-usernmae-2" name="register-usernmae" th:field="*{username}" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-password-2">Mật khẩu *</label>
+                                        <input type="password" class="form-control" id="register-password-2" name="register-password" th:field="*{password}" required>
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>ĐĂNG KÝ</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="register-policy-2" required>
+                                            <label class="custom-control-label" for="register-policy-2">Tôi đồng ý các <a href="#">Chính sách bảo mật</a> *</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <h6 class="text-center">Đã có tài khoản click <a th:href="@{/login}"> ĐĂNG NHẬP</a></h6>
+                                    <p class="text-center">hoặc đăng nhập bằng</p>
+                                    <a th:href="@{/oauth2/authorization/google}" class="btn btn-login btn-g">
+                                        <i class="icon-google"></i>
+                                        Đăng nhập Google
+                                    </a>
+                                </div><!-- End .form-choice -->
+
+                                <!-- Success message -->
+                                <div th:if="${successMessage}" role="alert">
+                                    <script th:inline="javascript">
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: [[${successMessage}]],
+                                            showConfirmButton: true,
+                                            timer: 3000
+                                        }).then((result) => {
+                                            if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                                                window.location.href = '/login';
+                                            }
+                                        });
+                                    </script>
+                                </div>
+
+                                <!-- error message -->
+                                <div th:if="${errorMessage}" role="alert">
+                                    <script th:inline="javascript">
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: [[${errorMessage}]],
+                                            showConfirmButton: true,
+                                            timer: 3000
+                                        });
+                                    </script>
+
+                                </div>
+
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .container -->
+        </div><!-- End .login-page section-bg -->
+    </main><!-- End .main -->
+
+    <div th:replace="~{layout/footer.html :: footer}"></div>
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+<!-- Plugins JS File -->
+<script th:src="@{fe/js/jquery.min.js}"></script>
+<script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{fe/js/superfish.min.js}"></script>
+<script th:src="@{fe/js/owl.carousel.min.js}"></script>
+<!-- Main JS File -->
+<script th:src="@{fe/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+<div class="page-wrapper">
+	<div th:replace="~{layout/header.html :: header}"></div>
+	<main class="main">
+		<div class="page-header text-center" th:style="|background-image: url('@{/fe/images/page-header-bg.jpg}')|">
+			<div class="container">
+				<h1 class="page-title">GIỎ HÀNG<span>CỦA BẠN</span></h1>
+			</div><!-- End .container -->
+		</div><!-- End .page-header -->
+		<nav aria-label="breadcrumb" class="breadcrumb-nav">
+			<div class="container">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
+				</ol>
+			</div><!-- End .container -->
+		</nav><!-- End .breadcrumb-nav -->
+
+		<div class="page-content">
+			<div class="cart">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-9">
+							<table class="table table-cart table-mobile">
+								<thead>
+								<tr>
+									<th>SẢN PHẨM</th>
+									<th>GIÁ</th>
+									<th>SỐ LƯỢNG</th>
+									<th>TỔNG</th>
+									<th></th>
+								</tr>
+								</thead>
+
+								<tbody>
+								<tr th:each="product : ${cartItems}">
+									<td class="product-col">
+										<div class="product">
+											<figure class="product-media">
+												<a th:href="@{/product{id}(id=${product.productId})}">
+													<img th:src="@{/upload/{imageName}(imageName=${product.image})}" alt="Product image">
+												</a>
+											</figure>
+
+											<h3 class="product-title">
+												<a th:href="@{/product{id}(id=${product.productId})}" th:text="${product.name}">Beige knitted elastic runner shoes</a>
+											</h3><!-- End .product-title -->
+										</div><!-- End .product -->
+									</td>
+									<td class="price-col" th:text="'$' + ${product.price}">$84.00</td>
+									<td class="quantity-col">
+										<div class="cart-product-quantity">
+											<input type="number" class="form-control quantity-input" th:value="${product.quantity}" min="1" max="10" step="1" data-decimals="0" required>
+										</div><!-- End .cart-product-quantity -->
+									</td>
+									<td class="total-col">
+										<span class="product-total-price" th:text="${product.price * product.quantity} + ' $'">$168.00</span>
+									</td>
+									<td class="remove-col">
+										<form th:action="@{/cart/remove/{cardItemId}(cardItemId=${product.cardItemId})}" th:method="post">
+											<button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+										</form>
+									</td>
+								</tr>
+
+								</tbody>
+							</table><!-- End .table table-wishlist -->
+
+							<div class="cart-bottom">
+								<div class="cart-discount">
+									<form action="#">
+										<div class="input-group">
+											<input type="text" class="form-control" required placeholder="coupon code">
+											<div class="input-group-append">
+												<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
+											</div><!-- .End .input-group-append -->
+										</div><!-- End .input-group -->
+									</form>
+								</div><!-- End .cart-discount -->
+
+								<a th:href="@{/cart}" class="btn btn-outline-dark-2"><span>CẬP NHẬT GIỎ HÀNG</span><i class="icon-refresh"></i></a>
+							</div><!-- End .cart-bottom -->
+						</div><!-- End .col-lg-9 -->
+						<aside class="col-lg-3">
+							<div class="summary summary-cart">
+								<h3 class="summary-title">GIỎ HÀNG TỔNG</h3><!-- End .summary-title -->
+
+								<table class="table table-summary">
+									<tbody>
+
+									<tr class="summary-shipping">
+										<td>GIAO HÀNG:</td>
+										<td>&nbsp;</td>
+									</tr>
+
+									<tr class="summary-shipping-row">
+										<td colspan="2">
+											<div class="form-group">
+												<select class="custom-select custom-select-lg shipping-option" name="shipping-option">
+													<option th:each="shippingOption : ${shippingOptions}"
+															th:value="${shippingOption.shippingOptionId}"
+															th:text="${shippingOption.name + ' (' + shippingOption.fee + ' $)'}"
+															th:data-fee="${shippingOption.fee}">
+														MIỄN PHÍ SHIP (7-15 NGÀY)
+													</option>
+												</select>
+											</div><!-- End .form-group -->
+										</td>
+									</tr>
+
+									<style>
+										.custom-select-lg {
+											font-size: 1.45rem; /* Điều chỉnh kích thước font */
+											padding: .75rem 1.5rem; /* Điều chỉnh kích thước padding */
+											height: calc(3rem + 10px); /* Điều chỉnh chiều cao */
+											border-radius: .5rem; /* Điều chỉnh góc bo tròn */
+										}
+									</style>
+
+									<tr class="summary-shipping-estimate">
+										<td><br> <a th:href="@{/myaccount}">THAY ĐỔI ĐỊA CHỈ</a></td>
+										<td>&nbsp;</td>
+									</tr><!-- End .summary-shipping-estimate -->
+
+									<tr class="summary-total">
+										<td>TỔNG:</td>
+										<td th:text="${'$'+ totalQuantity}">$160.00</td>
+									</tr><!-- End .summary-total -->
+									</tbody>
+								</table><!-- End .table table-summary -->
+
+								<a th:href="@{/checkout}" class="btn btn-outline-primary-2 btn-order btn-block">CHUYỂN ĐẾN TRANG THANH TOÁN</a>
+							</div><!-- End .summary -->
+
+							<a th:href="@{/category}" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i class="icon-refresh"></i></a>
+						</aside><!-- End .col-lg-3 -->
+					</div><!-- End .row -->
+				</div><!-- End .container -->
+			</div><!-- End .cart -->
+		</div><!-- End .page-content -->
+	</main><!-- End .main -->
+
+	<div th:replace="~{layout/footer.html :: footer}"></div>
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+
+
+<!-- Plugins JS File -->
+<script th:src="@{/fe/js/jquery.min.js}"></script>
+<script th:src="@{/fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{/fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/fe/js/superfish.min.js}"></script>
+<script th:src="@{/fe/js/owl.carousel.min.js}"></script>
+<script th:src="@{/fe/js/bootstrap-input-spinner.js}"></script>
+<script>
+	document.querySelectorAll('.quantity-input').forEach(function(input) {
+		input.addEventListener('change', function() {
+			var quantity = this.value;
+			var price = parseFloat(this.closest('tr').querySelector('.price-col').innerText.replace('$', ''));
+			var totalPrice = quantity * price;
+			var cardItemId = this.closest('tr').querySelector('.remove-col form').getAttribute('action').split('/').pop();
+
+			this.closest('tr').querySelector('.product-total-price').innerText = totalPrice.toFixed(2) + ' $';
+
+			// Tạo request PUT để cập nhật số lượng sản phẩm trong giỏ hàng
+			fetch('/cart/update/' + cardItemId, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: new URLSearchParams({ 'quantity': quantity })
+			}).then(response => {
+				if (!response.ok) {
+					alert('Failed to update cart item quantity.');
+				} else {
+					// Nếu cập nhật thành công, tính lại tổng giá trị giỏ hàng
+					updateCartTotal();
+				}
+			}).catch(error => {
+				console.error('Error:', error);
+				alert('Failed to update cart item quantity.');
+			});
+		});
+	});
+
+	function updateCartTotal() {
+		var total = 0;
+		document.querySelectorAll('.product-total-price').forEach(function(element) {
+			total += parseFloat(element.innerText.replace(' $', ''));
+		});
+		document.querySelector('.summary-total td:last-child').innerText = '$' + total.toFixed(2);
+	}
+
+	document.querySelector('.shipping-option').addEventListener('change', function() {
+		var selectedOption = this.value;
+		var shippingFee = this.options[this.selectedIndex].getAttribute('data-fee'); // Lấy giá trị phí từ thuộc tính data-fee của option được chọn
+		var cardItemId = document.querySelector('.remove-col form').getAttribute('action').split('/').pop();
+
+		fetch('/cart/update-shipping-option', {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: new URLSearchParams({ 'shippingOptionId': selectedOption })
+		}).then(response => {
+			if (!response.ok) {
+				alert('Failed to update shipping option.');
+			} else {
+				// Cập nhật tổng số tiền với phí vận chuyển mới
+				updateCartTotal(parseFloat(shippingFee));
+			}
+		}).catch(error => {
+			console.error('Error:', error);
+			alert('Failed to update shipping option.');
+		});
+	});
+
+</script>
+
+<!-- Main JS File -->
+<script th:src="@{/fe/js/main.js}"></script>
+</body>
+</html>

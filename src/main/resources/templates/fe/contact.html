@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+    <div class="page-wrapper">
+        <div th:replace="~{layout/header.html :: header}"></div>
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Kiểm tra</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+            <div class="container">
+	        	<div class="page-header page-header-big text-center" style="background-image: url('/fe/images/contact.webp')">
+        			<h1 class="page-title text-white">LIÊN HỆ<span class="text-white">GIỮ LIÊN LẠC VỚI CHÚNG TÔI</span></h1>
+	        	</div><!-- End .page-header -->
+            </div><!-- End .container -->
+
+            <div class="page-content pb-0">
+                <div class="container">
+                	<div class="row">
+                		<div class="col-lg-6 mb-2 mb-lg-0">
+                			<h2 class="title mb-1">THÔNG TIN LIÊN LẠC</h2><!-- End .title mb-2 -->
+                			<p class="mb-3">HÃY ĐIỀN THÔNG TIN CHÍNH XÁC ĐỂ CHÚNG TÔI CÓ THỂ PHẢN HỒI SỚM NHẤT.</p>
+                			<div class="row">
+                				<div class="col-sm-7">
+                					<div class="contact-info">
+                						<h3>ĐỊA CHỈ</h3>
+
+                						<ul class="contact-list">
+                							<li>
+                								<i class="icon-map-marker"></i>
+	                							ĐƯỜNG TRỊNH VĂN BÔ, NAM TỪ LIÊM, HÀ NỘI
+	                						</li>
+                							<li>
+                								<i class="icon-phone"></i>
+                								<a href="tel:#">+84 344 029 003</a>
+                							</li>
+                							<li>
+                								<i class="icon-envelope"></i>
+                								<a href="#"><span class="__cf_email__">tuananhleonat@gmail.com</span></a>
+                							</li>
+                						</ul><!-- End .contact-list -->
+                					</div><!-- End .contact-info -->
+                				</div><!-- End .col-sm-7 -->
+
+                				<div class="col-sm-5">
+                					<div class="contact-info">
+                						<h3>THỜI GIAN</h3>
+
+                						<ul class="contact-list">
+                							<li>
+                								<i class="icon-clock-o"></i>
+	                							<span class="text-dark">THỨ 2-THỨ 7</span> <br>7h Sáng - 11h Tối
+	                						</li>
+                							<li>
+                								<i class="icon-calendar"></i>
+                								<span class="text-dark">CHỦ NHẬT</span> <br>7h Sáng - 12h Trưa
+                							</li>
+                						</ul><!-- End .contact-list -->
+                					</div><!-- End .contact-info -->
+                				</div><!-- End .col-sm-5 -->
+                			</div><!-- End .row -->
+                		</div><!-- End .col-lg-6 -->
+                		<div class="col-lg-6">
+                			<h2 class="title mb-1">BẠN CÓ CÂU HỎI NÀO KHÔNG?</h2><!-- End .title mb-2 -->
+                			<p class="mb-2">SỬ DỤNG FORM DƯỚI ĐÂY ĐỂ LIÊN HỆ VỚI CHÚNG TÔI</p>
+
+                			<form th:action="@{/contact}" th:object="${contact}" method="post" class="contact-form mb-3">
+                				<div class="row">
+                					<div class="col-sm-6">
+                                        <label for="cname" class="sr-only">HỌ VÀ TÊN</label>
+                						<input type="text" class="form-control" id="cname" th:field="*{name}" placeholder="HỌ VÀ TÊN *" required>
+                					</div><!-- End .col-sm-6 -->
+
+                					<div class="col-sm-6">
+                                        <label for="cemail" class="sr-only">EMAIL</label>
+                						<input type="email" class="form-control" id="cemail" th:field="*{email}" placeholder="EMAIL *" required>
+                					</div><!-- End .col-sm-6 -->
+                				</div><!-- End .row -->
+
+                				<div class="row">
+                					<div class="col-sm-6">
+                                        <label for="cphone" class="sr-only">SỐ ĐIỆN THOẠI</label>
+                						<input type="tel" class="form-control" id="cphone" th:field="*{phone}" placeholder="SỐ ĐIỆN THOẠI">
+                					</div><!-- End .col-sm-6 -->
+
+                					<div class="col-sm-6">
+                                        <label for="csubject" class="sr-only">CHỦ ĐỀ</label>
+                						<input type="text" class="form-control" id="csubject" th:field="*{subject}" placeholder="CHỦ ĐỀ">
+                					</div><!-- End .col-sm-6 -->
+                				</div><!-- End .row -->
+
+                                <label for="cmessage" class="sr-only">NỘI DUNG</label>
+                				<textarea class="form-control" cols="30" rows="4" id="cmessage" th:field="*{message}" required placeholder="NỘI DUNG *"></textarea>
+
+                				<button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm">
+                					<span>GỬI</span>
+            						<i class="icon-long-arrow-right"></i>
+                				</button>
+                			</form><!-- End .contact-form -->
+                		</div><!-- End .col-lg-6 -->
+                	</div><!-- End .row -->
+
+                	<hr class="mt-4 mb-5">
+
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <div th:replace="~{layout/footer.html :: footer}"></div>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+    <!-- Plugins JS File -->
+    <script th:src="@{fe/js/jquery.min.js}"></script>
+    <script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+    <script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+    <script th:src="@{fe/js/superfish.min.js}"></script>
+    <script th:src="@{fe/js/owl.carousel.min.js}"></script>
+    <!-- Main JS File -->
+    <script th:src="@{fe/js/main.js}"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		if ([[${successMessage != null}]] && [[${successMessage}]].trim() !== '') {
+			Swal.fire({
+				icon: 'success',
+				title: 'Success',
+				text: '[[${successMessage}]]'
+			}).then((result) => {
+				if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+					window.location.href = '/contact';
+				}
+			});
+		}
+
+		if ([[${errorMessage != null}]] && [[${errorMessage}]].trim() !== '') {
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: '[[${errorMessage}]]'
+			});
+		}
+		/*]]>*/
+	</script>
+
+</body>
+</html>

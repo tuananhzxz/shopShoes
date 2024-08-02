@@ -1,0 +1,177 @@
+<header class="header header-8" th:fragment="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="header-top">
+        <div class="container">
+            <div class="header-left">
+                    <a th:href="@{/}">Shoes</a>
+            </div><!-- End .header-left -->
+
+            <div class="header-right">
+                <ul class="top-menu">
+                    <li>
+                        <a th:href="@{/}">Links</a>
+                        <ul>
+                            <li><a href="tel:#"><i class="icon-phone"></i>Gọi: +84 344 029 003 </a></li>
+                            <li><a th:href="@{/wishlist}"><i class="icon-heart-o"></i>Yêu Thích<span th:text="${totalWishList != null ? '(' + totalWishList + ')' : '(0)'}">(0)</span>
+                            </a></li>
+                            <li><a th:href="@{/aboutus}">Về Chúng Tôi</a></li>
+                            <li><a th:href="@{/contact}">Liên Hệ</a></li>
+                            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                                <a th:href="@{/myaccount}">
+                                    <i class="icon-user"></i>
+                                    <span th:text="${#authentication.getName()}"></span>
+                                </a>
+                            </li>
+                            <li th:unless="${#authorization.expression('isAuthenticated()')}">
+                                <a th:href="@{/login}">
+                                    <i class="icon-user"></i>
+                                    <span>Đăng Nhập</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul><!-- End .top-menu -->
+            </div><!-- End .header-right -->
+        </div><!-- End .container -->
+    </div><!-- End .header-top -->
+
+    <div class="header-middle sticky-header">
+        <div class="container">
+            <div class="header-left">
+                <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
+                </button>
+
+                <a th:href="@{/}" class="logo">
+                    <img th:src="@{fe/images/demos/logo.png}" alt="Molla Logo" width="105" height="25">
+                </a>
+            </div><!-- End .header-left -->
+
+            <div class="header-right">
+                <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        <li class="megamenu-container active">
+                        <li>
+                            <a th:href="@{/}" class="sf-with-ul">HOME</a>
+                        <ul>
+                            <li>
+                                <a th:href="@{/login}" class="sf-with-ul">Đăng nhập/ Đăng ký</a>
+                            </li>
+                        </ul>
+                        </li>
+                        <li>
+                            <a th:href="@{/category}" class="sf-with-ul">DANH SÁCH</a>
+
+                            <div class="megamenu megamenu-md">
+                                <div class="row no-gutters">
+                                    <div class="col-md-8">
+                                        <div class="menu-col">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="menu-title">Sản phẩm</div><!-- End .menu-title -->
+                                                    <ul>
+                                                        <li><a th:href="@{/category}">Danh mục</a></li>
+                                                    </ul>
+
+                                                    <div class="menu-title">Các trang chính</div><!-- End .menu-title -->
+                                                    <ul>
+                                                        <li><a th:href="@{/cart}">Giỏ hàng</a></li>
+                                                        <li><a th:href="@{/checkout}">Kiểm tra thanh toán</a></li>
+                                                        <li><a th:href="@{/wishlist}">Yêu thích</a></li>
+                                                        <li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/myaccount}">Tài khoản</a></li>
+                                                        <li th:unless="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/login}">Tài khoản</a></li>
+                                                    </ul>
+                                                </div><!-- End .col-md-6 -->
+                                            </div><!-- End .row -->
+                                        </div><!-- End .menu-col -->
+                                    </div><!-- End .col-md-8 -->
+
+                                    <div class="col-md-4">
+                                        <div class="banner banner-overlay">
+                                            <a th:href="@{/category}" class="banner banner-menu">
+                                                <img th:src="@{fe/images/menu/banner-1.jpg}" alt="Banner">
+
+                                                <div class="banner-content banner-content-top">
+                                                    <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div><!-- End .banner-title -->
+                                                </div><!-- End .banner-content -->
+                                            </a>
+                                        </div><!-- End .banner banner-overlay -->
+                                    </div><!-- End .col-md-4 -->
+                                </div><!-- End .row -->
+                            </div><!-- End .megamenu megamenu-md -->
+                        </li>
+                        <li>
+                            <a href="#" class="sf-with-ul">CHĂM SÓC KHÁCH HÀNG</a>
+
+                            <ul>
+                                <li>
+                                    <a th:href="@{/aboutus}" class="sf-with-ul">Về chúng tôi</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/contact}" class="sf-with-ul">Liên hệ</a>
+
+                                </li>
+                                <li><a th:href="@{/login}">Đăng nhập</a></li>
+                                <li><a th:href="@{/faq}">Hỏi đáp</a></li>
+                            </ul>
+                        </li>
+                    </ul><!-- End .menu -->
+                </nav><!-- End .main-nav -->
+
+                <div class="header-search">
+                    <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                    <form action="/search" method="get">
+                        <div class="header-search-wrapper">
+                            <label for="q" class="sr-only">Search</label>
+                            <input type="search" class="form-control" name="query" id="q" placeholder="Tìm kiếm gì đó..." required>
+                        </div><!-- End .header-search-wrapper -->
+                    </form>
+                </div><!-- End .header-search -->
+
+                <div class="dropdown cart-dropdown">
+                    <a th:href="@{/cart}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                        <i class="icon-shopping-cart"></i>
+                        <span class="cart-count" th:text="${cartItemCount}"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-cart-products">
+                            <div th:each="product : ${cartItems}" class="product">
+                                <div class="product-cart-details">
+                                    <h4 class="product-title">
+                                        <a href="" th:text="${product.name}">Beige knitted elastic runner shoes</a>
+                                    </h4>
+
+                                    <span class="cart-product-info">
+                                                <span class="cart-product-qty" th:text="${product.quantity}">1</span>
+                                            x <span  th:text="'$' + ${product.price}"></span>
+                                            </span>
+                                </div><!-- End .product-cart-details -->
+
+                                <figure class="product-image-container">
+                                    <a th:href="@{/product{id}(id=${product.productId})}" class="product-image">
+                                        <img th:src="@{/upload/{imageName}(imageName=${product.image})}" alt="product">
+                                    </a>
+                                </figure>
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                            </div><!-- End .product -->
+
+                        </div><!-- End .cart-product -->
+
+                        <div class="dropdown-cart-total">
+                            <span>TỔNG:</span>
+
+                            <span class="cart-total-price" th:text="${totalQuantity != null ? '$ '+ totalQuantity : '$0'}">$160.00</span>
+                        </div><!-- End .dropdown-cart-total -->
+
+                        <div class="dropdown-cart-action">
+                            <a th:href="@{/cart}" class="btn btn-primary">Xem Giỏ Hàng</a>
+                            <a th:href="@{/checkout}" class="btn btn-outline-primary-2"><span>Kiểm tra</span><i class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .dropdown-cart-total -->
+                    </div><!-- End .dropdown-menu -->
+                </div><!-- End .cart-dropdown -->
+            </div><!-- End .header-right -->
+        </div><!-- End .container -->
+    </div><!-- End .header-middle -->
+</header><!-- End .header -->

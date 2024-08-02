@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/head :: head}">
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div th:replace="~{layout/header.html :: header}"></div>
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Kết quả tìm kiếm</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="search-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="search-results">
+                            <h2>Kết quả tìm kiếm cho "<span th:text="${keyword}">[Từ khóa tìm kiếm]</span>"</h2>
+                            <div class="row" th:if="${searchResults.content.size() > 0}">
+                                <div th:each="product : ${searchResults.content}" class="col-lg-3 col-sm-9">
+                                    <div class="product">
+                                        <div class="product-image">
+                                            <img th:src="@{/upload/{imageName}(imageName=${product.image})}" alt="Product Image">
+                                        </div>
+                                        <div class="product-info">
+                                            <br>
+                                            <h3 class="product-title" th:text="${product.name}">Tên sản phẩm</h3>
+                                            <span class="product-price" th:text="${'$' + product.price}">$100.00</span>
+                                            <p class="product-description" th:text="${product.description}">Mô tả sản phẩm</p>
+                                            <br>
+                                            <div class="product-action">
+                                            <a th:href="@{/product{id}(id=${product.productId})}" class="btn-product btn-quickview"><span>Xem chi tiết</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="no-results" th:if="${searchResults.content.size() == 0}">
+                                <p>Không tìm thấy sản phẩm nào khớp với từ khóa "<span th:text="${keyword}"></span>".</p>
+                            </div>
+
+                            <!-- Phân trang -->
+                            <nav aria-label="Page navigation" th:if="${searchResults.totalPages > 1}">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item" th:classappend="${searchResults.first} ? 'disabled'">
+                                        <a class="page-link page-link-prev" th:href="@{search(query=${keyword}, page=${searchResults.number - 1}, size=${pageSize})}" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                            <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                        </a>
+                                    </li>
+                                    <li th:each="pageNum : ${#numbers.sequence(1, searchResults.totalPages)}"
+                                        th:classappend="${pageNum - 1 == searchResults.number} ? 'page-item active' : 'page-item'">
+                                        <a class="page-link" th:href="@{search(query=${keyword}, page=${pageNum - 1}, size=${pageSize})}" th:text="${pageNum}">1</a>
+                                    </li>
+                                    <li class="page-item-total">Tất cả <span th:text="${searchResults.totalPages}">0</span></li>
+                                    <li class="page-item" th:classappend="${searchResults.last} ? 'disabled'">
+                                        <a class="page-link page-link-next" th:href="@{search(query=${keyword}, page=${searchResults.number + 1}, size=${pageSize})}" aria-label="Next">
+                                            Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="~{layout/footer.html :: footer}"></div>
+</div>
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div>
+<div th:replace="~{layout/mobileMenu :: mobileMenu}"></div>
+<!-- Plugins JS File -->
+<script th:src="@{fe/js/jquery.min.js}"></script>
+<script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{fe/js/superfish.min.js}"></script>
+<script th:src="@{fe/js/owl.carousel.min.js}"></script>
+<!-- Main JS File -->
+<script th:src="@{fe/js/main.js}"></script>
+<style>
+    .product-description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 7;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+</body>
+</html>

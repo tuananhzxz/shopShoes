@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+    <div class="page-wrapper">
+        <div th:replace="~{layout/header.html :: header}"></div>
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17">
+            	<div class="container">
+            		<div class="form-box">
+            			<div class="form-tab">
+	            			<ul class="nav nav-pills nav-fill" role="tablist">
+							    <li class="nav-item">
+							        <a class="nav-link" id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab" aria-controls="signin-2" aria-selected="false">Đăng Nhập</a>
+							    </li>
+							</ul>
+							<div class="tab-content">
+							    <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+                                    <form th:action="@{/login}" th:object="${loginDTO}" method="post">
+							    		<div class="form-group">
+							    			<label for="singin-email-2">Tên đăng nhập *</label>
+							    			<input type="text" class="form-control" id="singin-email-2" name="singin-email" th:field="*{username}" required>
+							    		</div><!-- End .form-group -->
+
+							    		<div class="form-group">
+							    			<label for="singin-password-2">Mật khẩu *</label>
+							    			<input type="password" class="form-control" id="singin-password-2" name="singin-password" th:field="*{password}" required>
+							    		</div><!-- End .form-group -->
+
+							    		<div class="form-footer">
+							    			<button type="submit" class="btn btn-outline-primary-2">
+			                					<span>ĐĂNG NHẬP</span>
+			            						<i class="icon-long-arrow-right"></i>
+			                				</button>
+
+			                				<div class="custom-control custom-checkbox">
+												<input type="checkbox" class="custom-control-input" id="signin-remember-2">
+												<label class="custom-control-label" for="signin-remember-2">Nhớ tài khoản mật khẩu</label>
+											</div><!-- End .custom-checkbox -->
+
+											<a href="#" class="forgot-link">Quên mật khẩu?</a>
+							    		</div><!-- End .form-footer -->
+							    	</form>
+							    	<div class="form-choice">
+										<h6 class="text-center">Chưa có tài khoản <a th:href="@{/signup}"> ĐĂNG KÝ NGAY</a></h6>
+										<p class="text-center">hoặc đăng nhập bằng</p>
+										<a th:href="@{/oauth2/authorization/google}" class="btn btn-login btn-g">
+											<i class="icon-google"></i>
+											Đăng nhập Google
+										</a>
+							    	</div><!-- End .form-choice -->
+							    </div><!-- .End .tab-pane -->
+							</div><!-- End .tab-content -->
+						</div><!-- End .form-tab -->
+            		</div><!-- End .form-box -->
+            	</div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
+
+        <div th:replace="~{layout/footer.html :: footer}"></div>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+    <!-- Plugins JS File -->
+    <script th:src="@{fe/js/jquery.min.js}"></script>
+    <script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+    <script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+    <script th:src="@{fe/js/superfish.min.js}"></script>
+    <script th:src="@{fe/js/owl.carousel.min.js}"></script>
+	<!-- Success message -->
+	<div th:if="${successLogin}" role="alert">
+		<script th:inline="javascript">
+			Swal.fire({
+				icon: 'success',
+				title: [[${successLogin}]],
+				showConfirmButton: true,
+				timer: 3000
+			}).then((result) => {
+				if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+					window.location.href = '/';
+				}
+			});
+		</script>
+	</div>
+
+	<!-- error message -->
+	<div th:if="${errorLogin}" role="alert">
+		<script th:inline="javascript">
+			Swal.fire({
+				icon: 'error',
+				title: [[${errorLogin}]],
+				showConfirmButton: true,
+				timer: 3000
+			});
+		</script>
+
+	</div>
+    <!-- Main JS File -->
+    <script th:src="@{fe/js/main.js}"></script>
+</body>
+</html>

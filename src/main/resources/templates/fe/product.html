@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+    <div class="page-wrapper">
+        <div th:replace="~{layout/header.html :: header}"></div>
+        
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container d-flex align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/category}">Sản phẩm</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" th:text="${productDTO.name}">Id1</li>
+                    </ol>
+
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="product-details-top">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="product-gallery">
+                                            <figure class="product-main-image">
+                                                <span class="product-label label-top">Top</span>
+                                                <img id="product-zoom" th:src="@{/upload/{image}(image=${productDTO.image})}" data-zoom-image="@{/upload/{image}(image=${productDTO.image})}" alt="product image">
+
+                                            </figure><!-- End .product-main-image -->
+                                        </div><!-- End .product-gallery -->
+                                    </div><!-- End .col-md-6 -->
+
+                                    <div class="col-md-6">
+                                        <div class="product-details product-details-sidebar">
+                                            <h1 class="product-title" th:text="${productDTO.name}">Black faux leather chain trim sandals</h1><!-- End .product-title -->
+
+                                            <div class="ratings-container">
+                                                <div class="rating" th:data-product-id="${productDTO.productId}">
+                                                    <input type="radio" name="rating" th:id="'5' + ${productDTO.productId}" value="5" th:checked="${userRating == 5}"><label th:for="'5' + ${productDTO.productId}">★</label>
+                                                    <input type="radio" name="rating" th:id="'4' + ${productDTO.productId}" value="4" th:checked="${userRating == 4}"><label th:for="'4' + ${productDTO.productId}">★</label>
+                                                    <input type="radio" name="rating" th:id="'3' + ${productDTO.productId}" value="3" th:checked="${userRating == 3}"><label th:for="'3' + ${productDTO.productId}">★</label>
+                                                    <input type="radio" name="rating" th:id="'2' + ${productDTO.productId}" value="2" th:checked="${userRating == 2}"><label th:for="'2' + ${productDTO.productId}">★</label>
+                                                    <input type="radio" name="rating" th:id="'1' + ${productDTO.productId}" value="1" th:checked="${userRating == 1}"><label th:for="'1' + ${productDTO.productId}">★</label>
+                                                </div>
+                                                <a class="ratings-text" href="#product-review-link" id="review-link" th:text="${'( ' + reviews.size() + ' Đánh giá' + ' )'}">( 2 Reviews )</a>
+                                            </div><!-- End .rating-container -->
+
+                                            <div class="product-price" th:text="'$' + ${productDTO.price}">
+                                                $90.00
+                                            </div><!-- End .product-price -->
+
+                                            <div class="product-content">
+                                                <p>Chất lượng giày luôn được đảm bảo để khách hàng có thể yên tâm mua sản phẩm của chúng tôi.</p>
+                                            </div><!-- End .product-content -->
+
+                                            <div class="details-filter-row details-row-size">
+                                                <label>Màu sắc:</label>
+
+                                                <div class="product-nav product-nav-dots">
+                                                    <a href="#" class="active" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                                    <a href="#" style="background: #efe7db;"><span class="sr-only">Color name</span></a>
+                                                </div><!-- End .product-nav -->
+                                            </div><!-- End .details-filter-row -->
+
+                                            <div class="details-filter-row details-row-size">
+                                                <label for="size">Kích thước:</label>
+                                                <div class="select-custom">
+                                                    <select name="size" id="size" class="form-control">
+                                                        <option value="#" selected="selected">Chọn 1 kích thước</option>
+                                                        <option th:each="size : ${existingSizes}" th:value="${size}" th:text="${size}">Size</option>
+                                                    </select>
+                                                </div><!-- End .select-custom -->
+
+                                                <a href="#" class="size-guide"><i class="icon-th-list"></i>Hướng dẫn chọn size</a>
+                                                <div id="overlay"></div>
+                                                <div id="popup">
+                                                    <span class="close-btn">&times;</span>
+                                                    <img id="popup-img" src="" alt="Size Guide">
+                                                </div>
+                                            </div><!-- End .details-filter-row -->
+
+                                            <div class="product-details-action">
+                                                <div class="details-action-col">
+                                                    <label for="qty">Số lượng:</label>
+                                                    <div class="product-details-quantity">
+                                                        <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                                    </div><!-- End .product-details-quantity -->
+
+                                                    <a href="#" class="btn-product" sec:authorize="isAuthenticated()">
+                                                        <form th:action="@{/cart/add-to-cart}" th:method="post">
+                                                            <input type="hidden" name="productId" th:value="${productDTO.productId}" />
+                                                            <input type="hidden" name="quantity" value="1" /> <!-- Số lượng sản phẩm mặc định -->
+                                                            <button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+                                                        </form>
+                                                    </a>
+                                                    <a th:href="@{/login}" class="btn-product btn-cart" sec:authorize="!isAuthenticated()"><span>Thêm vào giỏ hàng</span></a>
+
+                                                </div><!-- End .details-action-col -->
+
+                                                <div class="details-action-wrapper">
+                                                    <a href="#" onclick="submitWishlistForm(event,this)" class="btn-product btn-wishlist" sec:authorize="isAuthenticated()"><span>Yêu Thích</span>
+                                                        <form th:action="@{/wishlist/add-to-wishlist}" th:method="post">
+                                                            <input type="hidden" name="productId" th:value="${productDTO.productId}" />
+                                                            <input type="hidden" name="quantity" value="1" /> <!-- Số lượng sản phẩm mặc định -->
+                                                        </form>
+                                                    </a>
+                                                    <a th:href="@{/login}" class="btn-product btn-wishlist" sec:authorize="!isAuthenticated()"><span>Yêu Thích</span></a>
+                                                </div><!-- End .details-action-wrapper -->
+                                            </div><!-- End .product-details-action -->
+
+                                            <div class="product-details-footer details-footer-col">
+
+                                                <div class="social-icons social-icons-sm">
+                                                    <span class="social-label">Share:</span>
+                                                    <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                                    <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                                    <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                                    <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                                </div>
+                                            </div><!-- End .product-details-footer -->
+                                        </div><!-- End .product-details -->
+                                    </div><!-- End .col-md-6 -->
+                                </div><!-- End .row -->
+                            </div><!-- End .product-details-top -->
+
+                            <div class="product-details-tab">
+                                <ul class="nav nav-pills justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Mô tả</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Thông tin thêm</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Giao hàng & Hoàn trả</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Đánh giá (<span th:text="${reviewCount}"></span>)</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+                                        <div class="product-desc-content">
+                                            <h3>Chi tiết sản phẩm</h3>
+                                            <ul th:text="${productDTO.description}"></ul>
+
+                                            <h3>Thông số kỹ thuật</h3>
+                                            <p>Chất liệu: Da tổng hợp cao cấp</p>
+                                            <p>Đế: Cao su tổng hợp</p>
+                                            <p>Size: 35 - 44</p>
+                                        </div><!-- End .product-desc-content -->
+                                    </div><!-- .End .tab-pane -->
+                                    <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
+                                        <div class="product-desc-content">
+                                            <h3>Thông tin</h3>
+                                            <ul>Nếu bạn trao niềm tin chúng tôi sẽ không phụ lòng bạn. Mang đến trải nghiệm tốt nhất cho khách hàng</ul>
+                                            <h3>Chất lượng hàng đầu</h3>
+                                            <ul>
+                                                <li>Chất lượng chuẩn 98% so với Real</li>
+                                                <li>Đi đúng size</li>
+                                                <li>100% Ảnh chụp trực tiếp</li>
+                                                <li>Vận chuyển toàn quốc [ Kiểm Tra Hàng Trước Khi Thanh Toán ]  </li>
+                                                <li>Bảo Hành Trọn Đời Sản Phẩm</li>
+                                                <li> Liện hệ : Mr.Tuấn Anh </li>
+                                            </ul>
+
+                                        </div><!-- End .product-desc-content -->
+                                    </div><!-- .End .tab-pane -->
+                                    <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
+                                        <div class="product-desc-content">
+                                            <h3>Giao hàng & Hoàn trả</h3>
+                                            <p>Chúng tôi giao hàng đến hơn 100 quốc gia trên thế giới. Để biết chi tiết đầy đủ về các tùy chọn giao hàng mà chúng tôi cung cấp <a th:href="@{/faq}">Thông tin giao hàng</a><br>
+                                                Chúng tôi hy vọng bạn sẽ thích mỗi lần mua hàng nhưng nếu cần trả lại một mặt hàng, bạn có thể thực hiện việc đó trong vòng một tháng kể từ khi nhận. Để biết chi tiết đầy đủ về cách thực hiện hoàn trả, vui lòng xem <a th:href="@{/faq}">Thông tin hoàn trả</a></p>
+                                        </div><!-- End .product-desc-content -->
+                                    </div><!-- .End .tab-pane -->
+                                    <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+                                        <div class="reviews">
+                                            <h3>ĐÁNH GIÁ (<span th:text="${reviewCount}"></span>)</h3>
+                                            <div th:each="review : ${reviews}" class="review">
+                                                <div class="row no-gutters">
+                                                    <div class="col-auto">
+                                                        <h4><a href="#" th:text="${review.username}">Samanta J.</a></h4>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings">
+                                                                <div class="ratings-val" th:style="'width: ' + ${review.rating * 20} + '%'"></div><!-- End .ratings-val -->
+                                                            </div><!-- End .ratings -->
+                                                        </div><!-- End .rating-container -->
+                                                        <span class="review-date" th:text="${#dates.format(review.createdAt, 'dd MMM yyyy')}">6 days ago</span>
+                                                    </div><!-- End .col -->
+                                                    <div class="col">
+                                                        <div class="review-content">
+                                                            <p th:text="${review.comment}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
+                                                        </div><!-- End .review-content -->
+                                                    </div><!-- End .col-auto -->
+                                                </div><!-- End .row -->
+                                            </div><!-- End .review -->
+                                        </div><!-- End .reviews -->
+                                    </div><!-- .End .tab-pane -->
+                                </div><!-- End .tab-content -->
+                            </div><!-- End .product-details-tab -->
+
+                            <div class="reply">
+                                <div class="heading">
+                                    <h3 class="title">ĐỂ LẠI BÌNH LUẬN</h3>
+                                    <p class="title-desc">Địa chỉ email của bạn sẽ không công khai. Các trường bắt buộc được đánh dấu *</p>
+                                </div><!-- End .heading -->
+
+                                <form th:action="@{/product{id}(id=${productDTO.productId})}" method="POST">
+                                    <!-- Star Rating -->
+                                    <div class="ratings-container">
+                                        <div class="rating" th:data-product-id="${productDTO.productId}">
+                                            <input type="radio" name="rating" id="rating-5" value="5"><label for="rating-5">★</label>
+                                            <input type="radio" name="rating" id="rating-4" value="4"><label for="rating-4">★</label>
+                                            <input type="radio" name="rating" id="rating-3" value="3"><label for="rating-3">★</label>
+                                            <input type="radio" name="rating" id="rating-2" value="2"><label for="rating-2">★</label>
+                                            <input type="radio" name="rating" id="rating-1" value="1"><label for="rating-1">★</label>
+                                        </div>
+                                    </div><!-- End .ratings-container -->
+
+                                    <!-- Comment Section -->
+                                    <label for="reply-message" class="sr-only">Bình luận</label>
+                                    <textarea name="comment" id="reply-message" cols="30" rows="4" class="form-control" required placeholder="Bình luận *"></textarea>
+
+                                    <button type="submit" class="btn btn-outline-primary-2" th:if="${#authorization.expression('isAuthenticated()')}">
+                                        <span>ĐĂNG BÌNH LUẬN</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </button>
+                                    <a href="/login" class="btn btn-outline-primary-2" th:if="${!#authorization.expression('isAuthenticated()')}">
+                                        <span>ĐĂNG NHẬP ĐỂ BÌNH LUẬN</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </a>
+                                </form>
+                            </div><!-- End .reply -->
+
+                            <h2 class="title text-center mb-4">SẢN PHẨM TƯƠNG TỰ</h2><!-- End .title text-center -->
+                            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                                data-owl-options='{
+                                    "nav": false, 
+                                    "dots": true,
+                                    "margin": 20,
+                                    "loop": false,
+                                    "responsive": {
+                                        "0": {
+                                            "items":1
+                                        },
+                                        "480": {
+                                            "items":2
+                                        },
+                                        "768": {
+                                            "items":3
+                                        },
+                                        "992": {
+                                            "items":4
+                                        },
+                                        "1200": {
+                                            "items":4,
+                                            "nav": true,
+                                            "dots": false
+                                        }
+                                    }
+                                }'>
+                                <div class="product product-7 text-center" th:each="product : ${randomProducts}">
+                                    <figure class="product-media">
+                                        <span class="product-label label-new">New</span>
+                                        <a th:href="@{/product{id}(id=${product.productId})}">
+                                            <img th:src="@{/upload/{image}(image=${product.image})}" alt="Product image" class="product-image">
+                                        </a>
+
+                                        <div class="product-action-vertical">
+                                            <a href="#" onclick="submitWishlistForm(event,this)" class="btn-product-icon btn-wishlist btn-expandable" sec:authorize="isAuthenticated()"><span>Yêu Thích</span>
+                                                <form th:action="@{/wishlist/add-to-wishlist}" th:method="post">
+                                                    <input type="hidden" name="productId" th:value="${product.productId}" />
+                                                    <input type="hidden" name="quantity" value="1" /> <!-- Số lượng sản phẩm mặc định -->
+                                                </form>
+                                            </a>
+                                            <a th:href="@{/login}" class="btn-product-icon btn-wishlist btn-expandable" sec:authorize="!isAuthenticated()"><span>Yêu Thích</span></a>
+                                        </div><!-- End .product-action-vertical -->
+
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product" sec:authorize="isAuthenticated()">
+                                                <form th:action="@{/cart/add-to-cart}" th:method="post">
+                                                    <input type="hidden" name="productId" th:value="${product.productId}" />
+                                                    <input type="hidden" name="quantity" value="1" /> <!-- Số lượng sản phẩm mặc định -->
+                                                    <button type="submit" class="btn-product btn-cart"><span>Thêm vào giỏ hàng</span></button>
+                                                </form>
+                                            </a>
+                                            <a th:href="@{/login}" class="btn-product btn-cart" sec:authorize="!isAuthenticated()"><span>Thêm vào giỏ hàng</span></a>
+                                            <style>
+                                                .btn-product {
+                                                    background-color: transparent;
+                                                    border: none;
+                                                    cursor: pointer;
+                                                    outline: none;
+                                                }
+                                            </style>
+                                        </div><!-- End .product-action -->
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title" th:text="${product.name}"><a href="product.html">Brown paperbag waist pencil skirt</a></h3><!-- End .product-title -->
+                                        <div class="product-price" th:text="${product.price}">
+                                            $60.00
+                                        </div><!-- End .product-price -->
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" th:style="'width: ' + (${product.averageRating} * 20) + '%;'"></div><!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text" th:text="${product.reviewCount} + ' Đánh giá'"></span>
+                                        </div><!-- End .rating-container -->
+
+                                        <div class="product-nav product-nav-dots">
+                                            <a href="#" class="active" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
+                                            <a href="#" style="background: #7fc5ed;"><span class="sr-only">Color name</span></a>
+                                            <a href="#" style="background: #e8c97a;"><span class="sr-only">Color name</span></a>
+                                        </div><!-- End .product-nav -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+
+                            </div><!-- End .owl-carousel -->
+                        </div><!-- End .col-lg-9 -->
+
+                        <aside class="col-lg-3">
+                            <div class="sidebar sidebar-product">
+                                <div class="widget widget-products">
+                                    <h4 class="widget-title">Có liên quan</h4><!-- End .widget-title -->
+
+                                    <div class="products">
+                                        <div class="product product-sm" th:each="product : ${productDTOList}">
+                                            <figure class="product-media">
+                                                <a th:href="@{/product{id}(id=${product.productId})}">
+                                                    <img th:src="@{/upload/{image}(image=${product.image})}" alt="Product image" class="product-image">
+                                                </a>
+                                            </figure>
+
+                                            <div class="product-body">
+                                                <h5 class="product-title" th:text="${product.name}"><a href="product.html">Light brown studded Wide fit wedges</a></h5><!-- End .product-title -->
+                                                <div class="product-price">
+                                                    <span class="new-price" th:text="'$' + ${product.price}">$50.00</span>
+                                                </div><!-- End .product-price -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product product-sm -->
+
+                                    </div><!-- End .products -->
+
+                                    <a th:href="@{/category}" class="btn btn-outline-dark-3"><span>Xem nhiều sản phẩm</span><i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .widget widget-products -->
+
+                                <div class="widget widget-banner-sidebar">
+                                    <div class="banner-sidebar banner-overlay">
+                                        <a href="#">
+                                            <img th:src="@{fe/images/blog/sidebar/banner.jpg}" alt="banner">
+                                        </a>
+                                    </div><!-- End .banner-ad -->
+                                </div><!-- End .widget -->
+                            </div><!-- End .sidebar sidebar-product -->
+                        </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <div th:replace="~{layout/footer.html :: footer}"></div>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+    <!-- Plugins JS File -->
+    <script th:src="@{fe/js/jquery.min.js}"></script>
+    <script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+    <script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+    <script th:src="@{fe/js/superfish.min.js}"></script>
+    <script th:src="@{fe/js/owl.carousel.min.js}"></script>
+    <script th:src="@{fe/js/bootstrap-input-spinner.js}"></script>
+    <script th:src="@{fe/js/jquery.elevateZoom.min.js}"></script>
+    <script th:src="@{fe/js/bootstrap-input-spinner.js}"></script>
+    <script th:src="@{fe/js/jquery.magnific-popup.min.js}"></script>
+    <!-- Main JS File -->
+    <script th:src="@{fe/js/main.js}"></script>
+    <!-- Success message -->
+    <div th:if="${successMessage}" role="alert">
+        <script th:inline="javascript">
+            Swal.fire({
+                icon: 'success',
+                title: [[${successMessage}]],
+                showConfirmButton: true,
+                timer: 3000
+            }).then((result) => {
+                if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                    window.location.href = '/cart';
+                }
+            });
+        </script>
+    </div>
+
+    <!-- error message -->
+    <div th:if="${errorMessage}" role="alert">
+        <script th:inline="javascript">
+            Swal.fire({
+                icon: 'error',
+                title: [[${errorMessage}]],
+                showConfirmButton: true,
+                timer: 3000
+            });
+        </script>
+    </div>
+
+    <script>
+        function submitWishlistForm(event, element) {
+            event.preventDefault();
+            element.querySelector('form').submit();
+        }
+    </script>
+<style>
+    #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+    }
+
+    #popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        z-index: 2;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    #popup-img {
+        max-width: 80%;
+        max-height: 80%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .rating {
+        direction: rtl;
+        unicode-bidi: bidi-override;
+        display: inline-flex;
+        justify-content: center;
+        position: relative;
+    }
+
+    .rating > input {
+        display: none;
+    }
+
+    .rating > label {
+        cursor: pointer;
+        font-size: 1.5rem; /* Smaller size for the stars */
+        color: #ddd;
+        margin: 0 0.1rem; /* Optional: Adjust spacing between stars */
+    }
+
+    .rating > input:checked ~ label {
+        color: #f5b301;
+    }
+
+    .rating > input:not(:checked) + label:hover,
+    .rating > input:not(:checked) + label:hover ~ label {
+        color: #f5b301;
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label {
+        color: #f5b301;
+    }
+
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sizeGuideLink = document.querySelector(".size-guide");
+        const overlay = document.getElementById("overlay");
+        const popup = document.getElementById("popup");
+        const closeBtn = document.querySelector(".close-btn");
+        const popupImg = document.getElementById("popup-img");
+
+        sizeGuideLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            overlay.style.display = "block";
+            popup.style.display = "block";
+            const imgSrc = "/fe/images/video/siz.jpeg";
+            popupImg.src = imgSrc;
+        });
+
+        closeBtn.addEventListener("click", function () {
+            overlay.style.display = "none";
+            popup.style.display = "none";
+            popupImg.src = "";
+        });
+
+        overlay.addEventListener("click", function () {
+            overlay.style.display = "none";
+            popup.style.display = "none";
+            popupImg.src = "";
+        });
+    });
+
+    //rating
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.rating input').forEach(function (input) {
+            input.addEventListener('change', function (event) {
+                var rating = event.target.value;
+                var productId = event.target.closest('.rating').getAttribute('data-product-id');
+
+                fetch('/product', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `productId=${productId}&rating=${rating}`
+                }).then(response => response.text())
+                    .catch(error => alert('Error submitting rating.'));
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+<div class="page-wrapper">
+    <div th:replace="~{layout/header.html :: header}"></div>
+
+    <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Về chúng tôi</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+        <div class="container">
+            <div class="page-header page-header-big text-center" style="background-image: url('/fe/images/about-us.webp')">
+                <h1 class="page-title text-white">VỀ CHÚNG TÔI<span class="text-white">Chúng tôi là ai</span></h1>
+            </div><!-- End .page-header -->
+        </div><!-- End .container -->
+
+        <div class="page-content pb-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mb-3 mb-lg-0">
+                        <h2 class="title">TẦM NHÌN</h2><!-- End .title -->
+                        <p>Trở thành một địa chỉ mua sắm giày uy tín, chất lượng hàng đầu tại thành phố của chúng ta. Chúng tôi muốn mang đến cho khách hàng những trải nghiệm mua sắm tuyệt vời, với sự kết hợp hoàn hảo giữa sản phẩm đa dạng, phong cách thời trang đỉnh cao và dịch vụ khách hàng xuất sắc. </p>
+                    </div><!-- End .col-lg-6 -->
+
+                    <div class="col-lg-6">
+                        <h2 class="title">NHIỆM VỤ</h2><!-- End .title -->
+                        <p>Khách hàng sẽ được trải nghiệm dịch vụ chu đáo và thân thiện từ đội ngũ nhân viên chuyên nghiệp. Chúng tôi luôn nỗ lực tối đa để mang lại sự hài lòng cho từng khách hàng, từ khâu tư vấn, lựa chọn đến quy trình phục vụ và chăm sóc sau bán hàng. </p>
+                    </div><!-- End .col-lg-6 -->
+                </div><!-- End .row -->
+
+                <div class="mb-5"></div><!-- End .mb-4 -->
+            </div><!-- End .container -->
+
+            <div class="bg-light-2 pt-6 pb-5 mb-6 mb-lg-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5 mb-3 mb-lg-0">
+                            <h2 class="title">CHÚNG TÔI LÀ AI</h2><!-- End .title -->
+                            <p class="lead text-primary mb-3">Những người phục vụ mang đến chất lượng cho mọi người</p><!-- End .lead text-primary -->
+                            <p class="mb-2">Với tầm nhìn trở thành cửa hàng giày hàng đầu tại thành phố, chúng tôi kỳ vọng sẽ trở thành điểm đến quen thuộc và tin cậy của các tín đồ thời trang địa phương cũng như du khách ghé thăm. Chúng tôi tin rằng sự kết hợp giữa sản phẩm chất lượng và dịch vụ xuất sắc sẽ mang đến những trải nghiệm mua sắm khó quên cho khách hàng. </p>
+                        </div><!-- End .col-lg-5 -->
+
+                        <div class="col-lg-6 offset-lg-1">
+                            <div class="about-images">
+                                <img th:src="@{fe/images/about/img-1.jpg}" alt="" class="about-img-front">
+                                <img th:src="@{fe/images/about/img-2.jpg}" alt="" class="about-img-back">
+                            </div><!-- End .about-images -->
+                        </div><!-- End .col-lg-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-light-2 pt-6 pb-6 -->
+
+            <div class="container">
+                <hr class="mt-4 mb-6">
+
+                <h2 class="title text-center mb-4">ĐỘI NGŨ CỦA CHÚNG TÔI</h2><!-- End .title text-center mb-2 -->
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="member member-anim text-center">
+                            <figure class="member-media">
+                                <img th:src="@{fe/images/team/ceo.jpg}" alt="member photo">
+
+                                <figcaption class="member-overlay">
+                                    <div class="member-overlay-content">
+                                        <h3 class="member-title">ĐỖ TUẤN ANH<span>CHỦ CỬA HÀNG</span></h3><!-- End .member-title -->
+                                        <span>Với 10 năm chinh chiến trên thị trường giày tôi rất tự tin vào khả năng của bản thân.</span>
+                                        <div class="social-icons social-icons-simple">
+                                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                        </div><!-- End .soial-icons -->
+                                    </div><!-- End .member-overlay-content -->
+                                </figcaption><!-- End .member-overlay -->
+                            </figure><!-- End .member-media -->
+                            <div class="member-content">
+                                <h3 class="member-title">ĐỖ TUẤN ANH<span>CHỦ CỬA HÀNG</span></h3><!-- End .member-title -->
+                            </div><!-- End .member-content -->
+                        </div><!-- End .member -->
+                    </div><!-- End .col-md-4 -->
+
+                    <div class="col-md-4">
+                        <div class="member member-anim text-center">
+                            <figure class="member-media">
+                                <img th:src="@{fe/images/team/ceo2.jpeg}" alt="member photo">
+
+                                <figcaption class="member-overlay">
+                                    <div class="member-overlay-content">
+                                        <h3 class="member-title">NGUYỄN THẾ BẢO<span>Sales & QUẢN LÝ</span></h3><!-- End .member-title -->
+                                        <span>Tôi luôn cố gắng hết mình để mang lại sự hài lòng cho khách hàng, từ việc tư vấn cho đến chăm sóc sau bán hàng.</span>
+                                        <div class="social-icons social-icons-simple">
+                                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                        </div><!-- End .soial-icons -->
+                                    </div><!-- End .member-overlay-content -->
+                                </figcaption><!-- End .member-overlay -->
+                            </figure><!-- End .member-media -->
+                            <div class="member-content">
+                                <h3 class="member-title">NGUYỄN THẾ BẢO<span>Sales & QUẢN LÝ</span></h3><!-- End .member-title -->
+                            </div><!-- End .member-content -->
+                        </div><!-- End .member -->
+                    </div><!-- End .col-md-4 -->
+
+                    <div class="col-md-4">
+                        <div class="member member-anim text-center">
+                            <figure class="member-media">
+                                <img th:src="@{fe/images/team/ceo1.jpeg}" alt="member photo">
+
+                                <figcaption class="member-overlay">
+                                    <div class="member-overlay-content">
+                                        <h3 class="member-title">NGUYỄN TRỌNG QUỲNH<span>QUẢN LÝ SẢN PHẨM</span></h3><!-- End .member-title -->
+                                        <span>Từ lúc làm quản lý tới nay tôi tự tin vào khả năng của mình hơn ai hết.</span>
+                                        <div class="social-icons social-icons-simple">
+                                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                        </div><!-- End .soial-icons -->
+                                    </div><!-- End .member-overlay-content -->
+                                </figcaption><!-- End .member-overlay -->
+                            </figure><!-- End .member-media -->
+                            <div class="member-content">
+                                <h3 class="member-title">NGUYỄN TRỌNG QUỲNH<span>QUẢN LÝ SẢN PHẨM</span></h3><!-- End .member-title -->
+                            </div><!-- End .member-content -->
+                        </div><!-- End .member -->
+                    </div><!-- End .col-md-4 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-2"></div><!-- End .mb-2 -->
+
+            <div class="about-testimonials bg-light-2 pt-6 pb-6">
+                <div class="container">
+                    <h2 class="title text-center mb-3">KHÁCH HÀNG PHẢN HỒI GÌ VỀ CHÚNG TÔI</h2><!-- End .title text-center -->
+
+                    <div class="owl-carousel owl-simple owl-testimonials-photo" data-toggle="owl"
+                         data-owl-options='{
+                                "nav": false,
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "1200": {
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                        <blockquote class="testimonial text-center">
+                            <img th:src="@{fe/images/testimonials/user-1.jpg}" alt="user">
+                            <p>“ Tôi vừa mua một đôi giày cao gót ở đây và thực sự rất hài lòng. Chất lượng sản phẩm tuyệt vời, kiểu dáng độc đáo và phù hợp với xu hướng thời trang. Điều tôi ấn tượng nhất là sự thoải mái khi đi, không hề cảm thấy khó chịu như những đôi giày cao gót khác. ”</p>
+                            <cite>
+                                VI GIANG HUY
+                                <span>Khách hàng</span>
+                            </cite>
+                        </blockquote><!-- End .testimonial -->
+
+                        <blockquote class="testimonial text-center">
+                            <img th:src="@{fe/images/testimonials/user-2.jpg}" alt="user">
+                            <p>“ Lần đầu tiên tôi ghé thăm cửa hàng, tôi đã được các nhân viên tư vấn rất chu đáo về các dòng sản phẩm phù hợp với chân của mình. Họ rất kiên nhẫn và nhiệt tình, giúp tôi lựa chọn được đôi giày vừa vặn, thoải mái mà vẫn rất thời trang. Tôi sẽ tiếp tục ủng hộ shop trong những lần mua sắm tiếp theo ”</p>
+
+                            <cite>
+                                VŨ MINH HOÀN
+                                <span>Khách hàng</span>
+                            </cite>
+                        </blockquote><!-- End .testimonial -->
+                    </div><!-- End .testimonials-slider owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-light-2 pt-5 pb-6 -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+    <div th:replace="~{layout/footer.html :: footer}"></div>
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+<!-- Plugins JS File -->
+<script th:src="@{fe/js/jquery.min.js}"></script>
+<script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{fe/js/superfish.min.js}"></script>
+<script th:src="@{fe/js/owl.carousel.min.js}"></script>
+<!-- Main JS File -->
+<script th:src="@{fe/js/main.js}"></script>
+</body>
+</html>

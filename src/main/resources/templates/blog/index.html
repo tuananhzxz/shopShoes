@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: head}"></head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <div th:replace="~{fragment/header.html :: header}"></div>
+  <!-- =============================================== -->
+
+  <!-- Left side column. contains the sidebar -->
+  <div th:replace="~{fragment/slidebar.html :: slidebar}"></div>
+  <!-- =============================================== -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Quản lý blog
+        <small>it all starts here</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Quản lý blog</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Default box -->
+      <div class="col-md">
+        <div class="box">
+          <div class="box-header d-flex justify-content-between align-items-center">
+            <h3 class="box-title">Danh sách blog</h3>
+            <a class="btn btn-success" th:href="@{/admin/blog/add}">Thêm blog</a>
+          </div>
+          <div class="box-header">
+            <form th:action="@{/admin/blog}" method="get" class="input-group input-group-sm hidden-xs" style="width: 300px;">
+              <input type="text" name="keyword" class="form-control pull-right" placeholder="Search" th:value="${keyword}">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+              </div>
+            </form>
+          </div>
+          <div class="box-body">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th style="width: 10px">ID</th>
+                <th>Tiêu đề</th>
+                <th>Tác giả</th>
+                <th>Ngày tạo</th>
+                <th style="width: 160px">Hành Động</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="blog, iterStat : ${blogPage.content}">
+                <td th:text="${blog.blogId}">1</td>
+                <td th:text="${blog.title}">Blog Title</td>
+                <td th:text="${blog.author}">Author Name</td>
+                <td th:text="${#dates.format(blog.createdAt, 'dd-MM-yyyy')}">Date Created</td>
+                <td>
+                  <a class="btn btn-primary" th:href="@{/admin/blog/edit/{id}(id=${blog.blogId})}">Sửa</a>
+                  <a class="btn btn-danger" th:href="@{/admin/blog/delete/{id}(id=${blog.blogId})}">Xóa</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+              <li th:if="${blogPage.totalPages > 1}" th:classappend="${!blogPage.hasPrevious()}? 'disabled' : ''">
+                <a th:if="${blogPage.hasPrevious()}" th:href="@{/admin/blog(page=${blogPage.number - 1}, keyword=${keyword})}" th:text="'&laquo;'"></a>
+                <span th:unless="${blogPage.hasPrevious()}" th:text="'&laquo;'"></span>
+              </li>
+              <li th:each="page : ${#numbers.sequence(0, blogPage.totalPages - 1)}"
+                  th:classappend="${page == blogPage.number}? 'active': ''">
+                <a th:if="${page != blogPage.number}" th:href="@{/admin/blog(page=${page}, keyword=${keyword})}" th:text="${page + 1}"></a>
+                <span th:if="${page == blogPage.number}" th:text="${page + 1}"></span>
+              </li>
+              <li th:if="${blogPage.totalPages > 1}" th:classappend="${!blogPage.hasNext()}? 'disabled' : ''">
+                <a th:if="${blogPage.hasNext()}" th:href="@{/admin/blog(page=${blogPage.number + 1}, keyword=${keyword})}" th:text="'&raquo;'"></a>
+                <span th:unless="${blogPage.hasNext()}" th:text="'&raquo;'"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /.box -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <div th:replace="~{fragment/footer.html :: footer}"></div>
+
+  <div th:replace="~{fragment/script.html :: script}"></div>
+</div>
+</body>
+</html>

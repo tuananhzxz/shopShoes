@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+    <div class="page-wrapper">
+        <div th:replace="~{layout/header.html :: header}"></div>
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('/fe/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">DANH SÁCH<span>YÊU THÍCH</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">YÊU THÍCH</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="container">
+					<table class="table table-wishlist table-mobile">
+						<thead>
+							<tr>
+								<th>SẢN PHẨM</th>
+								<th>GIÁ</th>
+								<th>TRẠNG THÁI</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr th:each="product : ${wishListItems}">
+								<td class="product-col">
+									<div class="product">
+										<figure class="product-media">
+											<a href="#">
+												<img th:src="@{/upload/{imageName}(imageName=${product.productImage})}" alt="Product image" class="product-image">
+											</a>
+										</figure>
+
+										<h3 class="product-title">
+											<a th:text="${product.productName}">product</a>
+										</h3><!-- End .product-title -->
+									</div><!-- End .product -->
+								</td>
+								<td class="price-col" th:text="${'$ ' + product.productPrice}">$76.00</td>
+								<td class="stock-col"><span class="in-stock">Còn hàng</span></td>
+								<td class="action-col">
+										<form th:action="@{/cart/add-to-cart}" th:method="post">
+											<input type="hidden" name="productId" th:value="${product.productId}" />
+											<input type="hidden" name="quantity" value="1" /> <!-- Số lượng sản phẩm mặc định -->
+											<button type="submit" class="btn btn-block btn-outline-primary-2"><i class="icon-cart-plus"></i>Thêm Vào Giỏ Hàng</button>
+										</form>
+								</td>
+								<td class="remove-col">
+									<form th:action="@{/wishlist/remove/{wishListId}(wishListId=${product.id})}" method="post">
+										<button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table><!-- End .table table-wishlist -->
+	            	<div class="wishlist-share">
+	            		<div class="social-icons social-icons-sm mb-2">
+	            			<label class="social-label">Share on:</label>
+	    					<a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+	    					<a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+	    					<a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+	    					<a href="#" class="social-icon" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+	    					<a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+	    				</div><!-- End .soial-icons -->
+	            	</div><!-- End .wishlist-share -->
+            	</div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <div th:replace="~{layout/footer.html :: footer}"></div>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+
+    <!-- Plugins JS File -->
+    <script th:src="@{fe/js/jquery.min.js}"></script>
+    <script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+    <script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+    <script th:src="@{fe/js/superfish.min.js}"></script>
+    <script th:src="@{fe/js/owl.carousel.min.js}"></script>
+    <!-- Main JS File -->
+    <script th:src="@{fe/js/main.js}"></script>
+</body>
+</html>

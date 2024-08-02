@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: head}"></head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <div th:replace="~{fragment/header.html :: header}"></div>
+    <div th:replace="~{fragment/slidebar.html :: slidebar}"></div>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Quản lý đơn hàng
+                <small>it all starts here</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Quản lý đơn hàng</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="col-md">
+                <div class="box">
+                    <div class="box-header d-flex justify-content-between align-items-center">
+                        <h3 class="box-title">Danh sách đơn hàng</h3>
+                    </div>
+                    <div class="box-header">
+                        <form th:action="@{/admin/order}" method="get" class="input-group input-group-sm hidden-xs" style="width: 300px;">
+                            <input type="text" name="keyword" class="form-control pull-right" placeholder="Search" th:value="${keyword}">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width: 10px">ID</th>
+                                <th>User ID</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Created At</th>
+                                <th>Transaction</th>
+                                <th style="width: 230px">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order, iterStat : ${ordersPage.content}">
+                                <td th:text="${ordersPage.number * ordersPage.size + iterStat.index + 1}">1</td>
+                                <td th:text="${order.userId}">User 1</td>
+                                <td th:text="${order.productName}">1 Product</td>
+                                <td th:text="${order.quantity}">2</td>
+                                <td th:text="${order.totalAmount} + ' VND'">100</td>
+                                <td>
+                                    <span th:if="${order.status == 'Thành công'}" class="label label-success">Thành công</span>
+                                    <span th:if="${order.status == 'Đang giao hàng'}" class="label label-info">Đang giao hàng</span>
+                                    <span th:if="${order.status == 'Chờ xác nhận'}" class="label label-warning">Chờ xác nhận</span>
+                                    <span th:if="${order.status == 'Hủy'}" class="label label-danger">Hủy Bỏ</span>
+                                </td>
+                                <td th:text="${#dates.format(order.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2023-05-01</td>
+                                <td th:text="${order.transactionId}">Transaction ID</td>
+                                <td>
+                                    <a class="btn btn-primary" th:href="@{/admin/order/edit/{id}(id=${order.orderId})}">Sửa</a>
+                                    <a class="btn btn-danger" th:href="@{/admin/order/delete/{id}(id=${order.orderId})}" th:onclick="'return confirmDelete();'">Xóa</a>
+                                    <button class="btn btn-info" th:data-transaction-id="${order.transactionId}" onclick="showDetails(this)">Chi tiết</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li th:if="${ordersPage.totalPages > 1}" th:classappend="${!ordersPage.hasPrevious()}? 'disabled' : ''">
+                                <a th:if="${ordersPage.hasPrevious()}" th:href="@{/admin/order(page=${ordersPage.number - 1}, keyword=${keyword})}" th:text="'&laquo;'"></a>
+                                <span th:unless="${ordersPage.hasPrevious()}" th:text="'&laquo;'"></span>
+                            </li>
+                            <li th:each="page : ${#numbers.sequence(0, ordersPage.totalPages - 1)}" th:classappend="${page == ordersPage.number}? 'active': ''">
+                                <a th:if="${page != ordersPage.number}" th:href="@{/admin/order(page=${page}, keyword=${keyword})}" th:text="${page + 1}"></a>
+                                <span th:if="${page == ordersPage.number}" th:text="${page + 1}"></span>
+                            </li>
+                            <li th:if="${ordersPage.totalPages > 1}" th:classappend="${!ordersPage.hasNext()}? 'disabled' : ''">
+                                <a th:if="${ordersPage.hasNext()}" th:href="@{/admin/order(page=${ordersPage.number + 1}, keyword=${keyword})}" th:text="'&raquo;'"></a>
+                                <span th:unless="${ordersPage.hasNext()}" th:text="'&raquo;'"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div th:replace="~{fragment/footer.html :: footer}"></div>
+    <div th:replace="~{fragment/script.html :: script}"></div>
+
+    <!-- Modal to display transaction details -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transactionModalLabel">Chi tiết giao dịch</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="transaction-details"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        function confirmDelete() {
+            return confirm("Bạn có chắc chắn muốn xóa đơn hàng này?");
+        }
+
+        function showDetails(button) {
+            var transactionId = button.getAttribute('data-transaction-id');
+            // AJAX request to fetch transaction details
+            fetch('/admin/order/transaction/' + transactionId)
+                .then(response => response.json())
+                .then(data => {
+                    var detailsDiv = document.getElementById('transaction-details');
+                    // Populate the modal with transaction details
+                    detailsDiv.innerHTML = `
+                        <p><strong>ID:</strong> ${data.id}</p>
+                        <p><strong>ID Người dùng:</strong> ${data.userId}</p>
+                        <p><strong>Họ:</strong> ${data.firstName}</p>
+                        <p><strong>Tên:</strong> ${data.lastName}</p>
+                        <p><strong>Email:</strong> ${data.guestEmail}</p>
+                        <p><strong>Số điện thoại:</strong> ${data.guestPhone}</p>
+                        <p><strong>Địa chỉ:</strong> ${data.guestAddress}</p>
+                        <p><strong>Thành phố:</strong> ${data.city}</p>
+                        <p><strong>Công ty:</strong> ${data.company}</p>
+                        <p><strong>Tin nhắn:</strong> ${data.message}</p>
+                        <p><strong>Mã bưu điện:</strong> ${data.zipCode}</p>
+                        <p><strong>Trạng thái:</strong> ${data.status}</p>
+                        <p><strong>Được tạo lúc:</strong> ${new Date(data.created).toLocaleString()}</p>
+                        <p><strong>Tổng tiền :</strong> ${data.amount + ' $'}</p>
+                        <p><strong>Phương thức:</strong> ${data.payment}</p>
+                        <p><strong>Đơn hàng:</strong></p>
+                        <ul>${data.orders.map(order => `<li>Tên sản phẩm : ${order.productName} ứng với số lượng: ${order.quantity}</li>`).join('')}</ul>
+                    `;
+                    // Show the modal
+                    $('#transactionModal').modal('show');
+                })
+                .catch(error => {
+                    console.error('Error fetching transaction details:', error);
+                });
+        }
+    </script>
+</div>
+
+</body>
+</html>

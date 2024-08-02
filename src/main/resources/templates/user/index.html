@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragment/head :: head}"></head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <div th:replace="~{fragment/header.html :: header}"></div>
+  <!-- =============================================== -->
+
+  <!-- Left side column. contains the sidebar -->
+  <div th:replace="~{fragment/slidebar.html :: slidebar}"></div>
+  <!-- =============================================== -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Quản lý khách hàng <!-- Thay đổi tiêu đề -->
+        <small>it all starts here</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Quản lý Sản Phẩm</li> <!-- Thay đổi breadcrumb -->
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="col-md">
+        <div class="box">
+          <div class="box-header d-flex justify-content-between align-items-center">
+            <h3 class="box-title">Danh sách khách hàng</h3> <!-- Thay đổi tiêu đề -->
+          </div>
+          <div class="box-header">
+            <form th:action="@{/admin/users}" method="get" class="input-group input-group-sm hidden-xs" style="width: 300px;">
+              <input type="text" name="keyword" class="form-control pull-right" placeholder="Search" th:value="${keyword}">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+              </div>
+            </form>
+          </div>
+          <div class="box-body">
+            <table class="table table-bordered">
+              <tbody>
+              <tr>
+                <th style="width: 10px">ID</th>
+                <th>Tên</th> <!-- Thay đổi tên cột -->
+                <th>Email</th> <!-- Thêm cột Email -->
+                <th>Số điện thoại</th> <!-- Thêm cột Số điện thoại -->
+                <th>Địa chỉ</th> <!-- Thêm cột Địa chỉ -->
+                <th>Ngày tạo</th> <!-- Thêm cột Ngày tạo -->
+                <th>Vai trò</th> <!-- Thêm cột Vai trò -->
+                <th style="width: 160px">Hành Động</th>
+              </tr>
+              <tr th:each="user, iterStat : ${userPage.content}">
+                <td th:text="${userPage.number * userPage.size + iterStat.index + 1}">1</td>
+                <td th:text="${user.username}">John Doe</td>
+                <td th:text="${user.email}">john@example.com</td>
+                <td th:text="${user.phone}">123456789</td>
+                <td th:text="${user.address}">123 Main St, City</td>
+                <td th:text="${user.createdAt}">2024-05-29 10:30:00</td>
+                <td th:text="${user.role}">Admin</td>
+                <td>
+                  <a class="btn btn-primary" th:href="@{/admin/users/edit/{id}(id=${user.userId})}">Sửa</a>
+                  <a class="btn btn-danger" th:href="@{/admin/users/delete/{id}(id=${user.userId})}">Xóa</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+              <li th:if="${userPage.totalPages > 1}" th:classappend="${!userPage.hasPrevious()}? 'disabled' : ''">
+                <a th:if="${userPage.hasPrevious()}" th:href="@{/admin/users(page=${userPage.number - 1}, keyword=${keyword})}" th:text="'&laquo;'"></a>
+                <span th:unless="${userPage.hasPrevious()}" th:text="'&laquo;'"></span>
+              </li>
+              <li th:each="page : ${#numbers.sequence(0, userPage.totalPages - 1)}"
+                  th:classappend="${page == userPage.number}? 'active': ''">
+                <a th:if="${page != userPage.number}" th:href="@{/admin/users(page=${page}, keyword=${keyword})}" th:text="${page + 1}"></a>
+                <span th:if="${page == userPage.number}" th:text="${page + 1}"></span>
+              </li>
+              <li th:if="${userPage.totalPages > 1}" th:classappend="${!userPage.hasNext()}? 'disabled' : ''">
+                <a th:if="${userPage.hasNext()}" th:href="@{/admin/users(page=${userPage.number + 1}, keyword=${keyword})}" th:text="'&raquo;'"></a>
+                <span th:unless="${userPage.hasNext()}" th:text="'&raquo;'"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <div th:replace="~{fragment/footer.html :: footer}"></div>
+
+  <div th:replace="~{fragment/script.html :: script}"></div>
+</div>
+</body>
+</html>

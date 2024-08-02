@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head th:replace="~{layout/head :: head}"></head>
+
+<body>
+<div class="page-wrapper">
+    <div th:replace="~{layout/header.html :: header}"></div>
+
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('/fe/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">Blog Classic<span>Blog</span></h1>
+            </div><!-- End   .container -->
+        </div><!-- End .page-header -->
+        <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div th:each="blog : ${blogPage.content}">
+                            <article class="entry">
+                                <figure class="entry-media">
+                                    <a th:href="@{/single{id}(id=${blog.blogId})}">
+                                        <img th:src="@{/upload/{image}(image=${blog.image})}" alt="Blog Image">
+                                    </a>
+                                </figure><!-- End .entry-media -->
+
+                                <div class="entry-body">
+                                    <div class="entry-meta">
+                                        <span class="entry-author">
+                                            by <a href="#">[[${blog.author}]]</a>
+                                        </span>
+                                        <span class="meta-separator">|</span>
+                                        <a th:text="${#dates.format(blog.createdAt, 'dd-MM-yyyy')}"></a>
+                                    </div><!-- End .entry-meta -->
+
+                                    <h2 class="entry-title">
+                                        <a th:href="@{single}">[[${blog.title}]]</a>
+                                    </h2><!-- End .entry-title -->
+
+                                    <div class="entry-content">
+                                        <p th:text="${blog.content}">Blog Content</p>
+                                        <a th:href="@{/single{id}(id=${blog.blogId})}" class="read-more">ĐỌC THÊM</a>
+                                    </div><!-- End .entry-content -->
+                                </div><!-- End .entry-body -->
+                            </article><!-- End .entry -->
+                        </div><!-- End .entry -->
+
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li th:if="${blogPage.hasPrevious()}" class="page-item">
+                                    <a th:href="@{/blog(page=${blogPage.number - 1}, keyword=${keyword})}" class="page-link page-link-prev" aria-label="Previous">
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                    </a>
+                                </li>
+                                <li th:each="page : ${#numbers.sequence(0, blogPage.totalPages - 1)}" th:classappend="${page == blogPage.number}? 'active' : ''" class="page-item">
+                                    <a th:if="${page != blogPage.number}" th:href="@{/blog(page=${page}, keyword=${keyword})}" th:text="${page + 1}" class="page-link"></a>
+                                    <span th:if="${page == blogPage.number}" th:text="${page + 1}" class="page-link"></span>
+                                </li>
+                                <li th:if="${blogPage.hasNext()}" class="page-item">
+                                    <a th:href="@{/blog(page=${blogPage.number + 1}, keyword=${keyword})}" class="page-link page-link-next" aria-label="Next">
+                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div><!-- End .col-lg-9 -->
+
+                    <aside class="col-lg-3">
+                        <div class="sidebar">
+                            <div class="widget widget-search">
+                                <h3 class="widget-title">Search</h3><!-- End .widget-title -->
+
+                                <form th:action="@{/blog}" method="get">
+                                    <label for="ws" class="sr-only">Tìm kiếm Blog</label>
+                                    <input type="search" class="form-control" name="keyword" id="ws" placeholder="Search in blog" required>
+                                    <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
+                                </form>
+                            </div><!-- End .widget -->
+
+                            <div class="widget">
+                                <h3 class="widget-title">BLOG GẦN ĐÂY</h3><!-- End .widget-title -->
+
+                                <ul class="posts-list">
+                                    <li th:each="popularPost : ${relatedPosts}">
+                                        <figure>
+                                            <a th:href="@{/single{id}(id=${blog.blogId})}">
+                                                <img th:src="@{/upload/{image}(image=${popularPost.image})}" alt="post">
+                                            </a>
+                                        </figure>
+
+                                        <div>
+                                            <span th:text="${#dates.format(popularPost.createdAt, 'yyyy-MM-dd')}">Nov 22, 2018</span>
+                                            <h4><a href="#" th:text="${popularPost.content}">Aliquam tincidunt mauris eurisus.</a></h4>
+                                        </div>
+                                    </li>
+                                </ul><!-- End .posts-list -->
+                            </div><!-- End .widget -->
+
+                            <div class="widget widget-text">
+                                <h3 class="widget-title">About Blog</h3><!-- End .widget-title -->
+
+                                <div class="widget-text-content">
+                                    <p>Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, pulvinar nunc sapien ornare nisl.</p>
+                                </div><!-- End .widget-text-content -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .sidebar -->
+                    </aside><!-- End .col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+    <div th:replace="~{layout/footer.html :: footer}"></div>
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div th:replace="~{layout/mobileMenu :: mobileMenu}"></div><!-- End .mobile-menu-container -->
+<!-- Plugins JS File -->
+<script th:src="@{fe/js/jquery.min.js}"></script>
+<script th:src="@{fe/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{fe/js/jquery.hoverIntent.min.js}"></script>
+<script th:src="@{fe/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{fe/js/superfish.min.js}"></script>
+<script th:src="@{fe/js/owl.carousel.min.js}"></script>
+<!-- Main JS File -->
+<script th:src="@{fe/js/main.js}"></script>
+</body>
+</html>
